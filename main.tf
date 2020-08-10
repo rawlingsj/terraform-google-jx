@@ -243,12 +243,3 @@ locals {
   compact_content = compact(local.split_content)
   content         = join("\n", local.compact_content)
 }
-
-// ----------------------------------------------------------------------------
-// Let's make sure `jx boot` can connect to the cluster for local booting 
-// ----------------------------------------------------------------------------
-resource "null_resource" "kubeconfig" {
-  provisioner "local-exec" {
-    command = "gcloud container clusters get-credentials ${local.cluster_name} --zone=${module.cluster.cluster_location} --project=${var.gcp_project}"
-  }
-}
