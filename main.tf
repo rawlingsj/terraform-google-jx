@@ -243,3 +243,30 @@ locals {
   compact_content = compact(local.split_content)
   content         = join("\n", local.compact_content)
 }
+
+resource "helm_release" "mydatabase" {
+  name  = "mydatabase"
+  chart = "stable/mariadb"
+
+  set {
+    name  = "mariadbUser"
+    value = "foo"
+  }
+
+  set {
+    name  = "mariadbPassword"
+    value = "qux"
+  }
+}
+
+resource "helm_release" "example" {
+  name       = "git-operator"
+  repository = "https://storage.googleapis.com/jenkinsxio-labs-private/charts" 
+  chart      = "jx-git-operator"
+  version    = "0.0.61"
+
+  set {
+    name  = "replicaCount"
+    value = "0"
+  }
+}
