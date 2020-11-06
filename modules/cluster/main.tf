@@ -78,7 +78,7 @@ resource "google_container_cluster" "jx_cluster" {
 
 module "jx-health" {
   count  = var.jx2 ? 0 : 1
-  source = "github.com/jenkins-x/terraform-jx-health?ref=main"
+  source = "github.com/jenkins-x/terraform-jx-health"
 
   depends_on = [
     google_container_cluster.jx_cluster
@@ -165,9 +165,6 @@ resource "helm_release" "jx-git-operator" {
     value = var.jx_bot_token
   }
 
-  lifecycle {
-    ignore_changes = all
-  }
   depends_on = [
     google_container_cluster.jx_cluster
   ]
